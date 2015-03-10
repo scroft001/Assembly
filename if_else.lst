@@ -1,0 +1,30 @@
+	.include "m16def.inc"
+	.dseg
+	.org $0060
+; initialize a, b, c, d
+	a: byte 1
+	b: byte 1
+	c: byte 1
+	d: byte 1
+	.cseg
+	lds r16, a ; load a into r16
+	cpi r16, 1 ; does a = 1?
+	breq assignif1t
+	lds r17, b ; load b into r17
+	cp r16, r17 ; does a == b
+	breq assignif2t
+	ldi r18, 100 ; load r18 with 100
+	sts c, r18 ; assign c = 100
+	lsl r16
+	lsl r16
+endif: rjmp endif
+
+assignif1t: ldi r16, 2 ; load 2 into r16
+			sts a, r16 ; assign a to be 2
+assignif2t: ldi r18, 12 ; load 12 into r18
+			sts c, r18 ; assign c to be 12
+			lds r16, b
+			lds r16, d
+			add r16, r16
+
+	 
