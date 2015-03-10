@@ -1,0 +1,26 @@
+	.include "m16def.inc"
+	.cseg
+; load list in sram
+	ldi r16, 12
+	sts list, r16
+	ldi r16, 10
+	sts list+1, r16
+	ldi r16, 32
+	sts list+2, r16
+	ldi r16,64
+	sts list+3, r16
+; point x at start of list
+	ldi xh, high(list)
+	ldi xl, low(list)
+; loop 4 times
+	ldi r17, 4 ; loop count
+loop:
+	ld r0, x+ ; get data, bump loop
+	lsl r16
+	st x, r0
+	dec r17
+	brne loop
+done: rjmp done
+	.dseg
+	.org $0060
+list: .byte 10 ; reserve 10 bytes for list
